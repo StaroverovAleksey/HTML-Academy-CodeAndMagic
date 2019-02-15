@@ -41,21 +41,27 @@
 	var units = [];
 	var unitsAmount = 4;
 
-	for (var i = 0; i < unitsAmount; i++) {
-	units[i] = {};
-	units[i].name = window.utils.getRandomElement(names) + ' ' + window.utils.getRandomElement(surnames);
-	units[i].coatColor = window.utils.getRandomElement(coatColors);
-	units[i].eyesColor = window.utils.getRandomElement(eyesColors);
-};
+	var onLoadUtits = function(data) {
 
-for (var i = 0; i < unitsAmount; i++) {
-var wizardTemplateCopy = document.querySelector('#similar-wizard-template').content.cloneNode(true);
-wizardTemplateCopy.querySelector('.setup-similar-label').textContent = units[i].name;
-wizardTemplateCopy.querySelector('.wizard-coat').style.fill = units[i].coatColor;
-wizardTemplateCopy.querySelector('.wizard-eyes').style.fill = units[i].eyesColor;
-document.querySelector('.setup-similar-list').appendChild(wizardTemplateCopy);
-};
+		for(var i = 0; i < unitsAmount; i++) {
+			units[i] = window.utils.getRandomElement(data);
+		};
 
-document.querySelector('.setup-similar').classList.remove('hidden');
+		for (var i = 0; i < unitsAmount; i++) {
+			var wizardTemplateCopy = document.querySelector('#similar-wizard-template').content.cloneNode(true);
+			wizardTemplateCopy.querySelector('.setup-similar-label').textContent = units[i].name;
+			wizardTemplateCopy.querySelector('.wizard-coat').style.fill = units[i].colorCoat;
+			wizardTemplateCopy.querySelector('.wizard-eyes').style.fill = units[i].colorEyes;
+			document.querySelector('.setup-similar-list').appendChild(wizardTemplateCopy);
+			};
+
+		document.querySelector('.setup-similar').classList.remove('hidden');
+	};
+
+	var onErrorLoad = function(error) {
+		console.log(error);
+	}
+
+	window.backend.load(onLoadUtits, onErrorLoad);
 
 })();

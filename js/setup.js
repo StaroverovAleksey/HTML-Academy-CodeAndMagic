@@ -9,6 +9,7 @@
 	var overlay = document.querySelector('.overlay');
 	var artifactCell = document.querySelector('.setup-artifacts-cell');
 	var inventory = document.querySelector('.setup-artifacts');
+	var form = document.querySelector('.setup-wizard-form');
 	var dragElement;
 	var dragTarget;
 
@@ -79,5 +80,15 @@
 	}
 
 	overlay.addEventListener('dragstart', toPaintInventoryCell);
+
+	var formError = function(error) {
+		console.log(error);
+	};
+
+	form.addEventListener('submit', function(evt) {
+		evt.preventDefault();
+		var data = new FormData(form);
+		window.backend.save(data, window.popup.closePopup, formError);
+	});
 
 })();
